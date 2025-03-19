@@ -10,14 +10,14 @@ function HomePage() {
   useEffect(() => {
     async function getMovies() {
         try {
-            setIsLoading(true);
-             setError(false);
+        setIsLoading(true);
+        setError(false);
         const data = await fetchMovies();
-        setMovies(data.results); 
+        setMovies(data); 
       } catch  {
         setError(true);
         } finally {
-            setIsLoading(false);
+        setIsLoading(false);
       }
     }
 
