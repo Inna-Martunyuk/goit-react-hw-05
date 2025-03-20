@@ -1,0 +1,27 @@
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.searchForm {
+  margin-bottom: 20px;
+}
+
+.loading {
+  font-size: 18px;
+  color: #0275d8; 
+  margin-top: 10px;
+}
+
+.error {
+  font-size: 18px;
+  color: #d9534f; 
+  margin-top: 10px;
+}
+
+.movieList {
+  margin-top: 20px;
+}

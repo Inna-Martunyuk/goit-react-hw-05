@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { fetchMovies } from "../../api";
+import { fetchTrendingMovies } from "../../api";
 import MovieList from "../../components/MovieList/MovieList";
+import styles from "./HomePage.module.css"
+
 
 function HomePage() {
     const [movies, setMovies] = useState([]);
@@ -9,14 +11,14 @@ function HomePage() {
 
   useEffect(() => {
     async function getMovies() {
-        try {
+      try {
         setIsLoading(true);
         setError(false);
-        const data = await fetchMovies();
-        setMovies(data); 
-      } catch  {
+        const data = await fetchTrendingMovies();
+        setMovies(data);
+      } catch {
         setError(true);
-        } finally {
+      } finally {
         setIsLoading(false);
       }
     }
@@ -25,13 +27,15 @@ function HomePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Trending today</h1>
-      {isLoading && <b>Loading movies...</b>}
+    <div className={styles.container}>
+      <h1 className={styles.title}>Trending Today</h1>
+      {isLoading && <b className={styles.loading}>Loading movies...</b>}
       {error && (
-        <b>Whoops, something went wrong, please try reloading this page!</b>
-          )}
-          {movies.length > 0 && <MovieList movies={movies} />}
+        <b className={styles.error}>
+          Whoops, something went wrong, please try reloading this page!
+        </b>
+      )}
+      {movies.length > 0 && <MovieList movies={movies} />}
     </div>
   );
 }

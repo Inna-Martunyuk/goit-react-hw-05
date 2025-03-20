@@ -5,16 +5,32 @@ const API_TOKEN =
 
 const API_URL = "https://api.themoviedb.org/3";
 
-// Для отримання списку трендових фільмів
-export const fetchMovies = async () => {
+//Для отримання популярних фільмів (для HomePage)
+export const fetchTrendingMovies = async () => {
   try {
     const resp = await axios.get(`${API_URL}/trending/movie/day`, {
       params: { language: "en-US" },
       headers: { Authorization: API_TOKEN },
     });
-    return resp.data.results; 
+    return resp.data.results;
   } catch (error) {
     console.error("Error fetching trending movies:", error);
+    throw error;
+  }
+};
+
+// Для пошуку фільмів за ключовим словом (для MoviesPage)
+export const fetchMovies = async (query) => {
+  if (!query) return []; // Якщо query порожній, повертаємо пустий масив
+
+  try {
+    const resp = await axios.get(`${API_URL}/search/movie`, {
+      params: { query, language: "en-US", include_adult: false },
+      headers: { Authorization: API_TOKEN },
+    });
+    return resp.data.results;
+  } catch (error) {
+    console.error("Error fetching movies by query:", error);
     throw error;
   }
 };
@@ -39,7 +55,7 @@ export const fetchMovieCast = async (movieId) => {
       params: { language: "en-US" },
       headers: { Authorization: API_TOKEN },
     });
-    return resp.data.cast; 
+    return resp.data.cast;
   } catch (error) {
     console.error(`Error fetching cast for movie ID ${movieId}:`, error);
     throw error;
@@ -53,7 +69,7 @@ export const fetchMovieReviews = async (movieId) => {
       params: { language: "en-US" },
       headers: { Authorization: API_TOKEN },
     });
-    return resp.data.results; 
+    return resp.data.results;
   } catch (error) {
     console.error(`Error fetching reviews for movie ID ${movieId}:`, error);
     throw error;

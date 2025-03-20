@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { fetchMoviesId } from "../../api";
 import { NavLink, Outlet } from "react-router-dom";
+import css from "./MovieDetailsPage.module.css"; 
 
 function MovieDetailsPage() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
+  const location = useLocation();
+  const backLinkRef = useRef(location.state || "/movies");
 
   useEffect(() => {
     async function fetchMovieDetails() {
@@ -26,36 +29,57 @@ function MovieDetailsPage() {
   }, [movieId]);
 
   if (!movie) {
-  return null; 
-}
- 
+    return null;
+  }
 
   return (
-    <div>
+    <div className={css.container}>
+      <Link to={backLinkRef.current} className={css.backLink}>
+        Go back
+      </Link>
       {isLoading && <b>Loading movies...</b>}
       {error && (
         <b>Whoops, something went wrong, please try reloading this page!</b>
       )}
 
-      <h2>{movie.title}</h2>
-      <img
-        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-        alt={movie.title}
-      />
-      <p>Release date: {movie.release_date || "Unknown"}</p>
-      <p>Overview: {movie.overview}</p>
+      <div className={css.movieDetails}>
+        
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          className={css.moviePoster}
+        />
 
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="cast">Cast</NavLink>
-          </li>
-          <li>
-            <NavLink to="reviews">Reviews</NavLink>
-          </li>
-        </ul>
-      </nav>
+      
+        <div className={css.movieInfo}>
+          <h2 className={css.movieTitle}>
+            {`${movie.title || "No title available"} (${
+              movie.release_date ? movie.release_date.slice(0, 4) : "Unknown"
+            })`}
+          </h2>
 
+          <p className={css.userScore}>
+            User score: {movie.vote_average * 10}%
+          </p>
+
+          <p className={css.overview}>Overview: {movie.overview}</p>
+        </div>
+      </div>
+      <div>
+        <h2 className={css.title}>Additional information</h2>
+        <nav className={css.navLinks}>
+            <ul>
+              <li>
+                <NavLink to="cast">Cast</NavLink>
+              </li>
+              <li>
+                <NavLink to="reviews">Reviews</NavLink>
+              </li>
+            </ul>
+          </nav>
+      </div>
+          
+        
       <Outlet />
     </div>
   );

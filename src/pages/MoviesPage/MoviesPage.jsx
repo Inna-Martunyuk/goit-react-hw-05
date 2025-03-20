@@ -1,27 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { fetchMovies } from "../../api";
+import MovieList from "../../components/MovieList/MovieList";
+import SearchForm from "../../components/SearchForm/SearchForm"; 
+import css from "./MoviesPage.module.css"
+
 function MoviesPage() {
-const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") ?? ""; 
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    if (!query) return; 
 
-    const value = query.trim();
-    if (!value) return; 
-    setQuery(""); 
+    async function getMovies() {
+      try {
+        setIsLoading(true);
+        setError(false);
+        const data = await fetchMovies(query);
+        setMovies(data);
+      } catch {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getMovies();
+  }, [query]); 
+
+  const handleSubmit = (value) => {
+    setSearchParams({ query: value }); 
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a movie..."
-        />
-        <button type="submit">Search</button>
-      </form>
+     <div className={css.container}>
+      <SearchForm onSubmit={handleSubmit} className={css.searchForm} />
+      {isLoading && <b className={css.loading}>Loading movies...</b>}
+      {error && (
+        <b className={css.error}>
+          Whoops, something went wrong, please try reloading this page!
+        </b>
+      )}
+      {movies.length > 0 && <MovieList movies={movies} className={css.movieList} />}
     </div>
   );
 }

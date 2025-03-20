@@ -1,0 +1,25 @@
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.loading,
+.error {
+  font-size: 18px;
+  color: #d9534f; 
+  margin-top: 10px;
+}
+
+.loading {
+  color: #0275d8; 
+}

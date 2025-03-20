@@ -1,0 +1,32 @@
+.container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 80px;
+  font-weight: bold;
+  color: #ff6b01;
+  margin-bottom: 10px;
+}
+
+.message {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  background-color: #ff6b01;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.homeLink:hover {
+  background-color: #d45500;
+}
