@@ -15,7 +15,7 @@ function MovieReviews() {
         setIsLoading(true);
         setError(false);
         const dataReviews = await fetchMovieReviews(movieId);
-        setReviews(dataReviews.results || []); // Виправлено помилку!
+        setReviews(dataReviews.results || []); 
       } catch {
         setError(true);
       } finally {

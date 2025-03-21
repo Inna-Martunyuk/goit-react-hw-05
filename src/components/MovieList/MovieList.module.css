@@ -21,12 +21,12 @@
 
 .link {
   text-decoration: none;
-  color: #0275d8;
+  color: #f76104;
   font-size: 18px;
   font-weight: bold;
   transition: color 0.3s ease-in-out;
 }
 
 .link:hover {
-  color: #025aa5;
+  color: #d76706;
 }

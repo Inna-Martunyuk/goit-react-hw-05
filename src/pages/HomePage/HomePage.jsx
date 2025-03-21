@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchTrendingMovies } from "../../api";
 import MovieList from "../../components/MovieList/MovieList";
-import styles from "./HomePage.module.css"
+import css from "./HomePage.module.css"
 
 
 function HomePage() {
@@ -27,11 +27,11 @@ function HomePage() {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Trending Today</h1>
-      {isLoading && <b className={styles.loading}>Loading movies...</b>}
+    <div className={css.container}>
+      <h1 className={css.title}>Trending Today</h1>
+      {isLoading && <b className={css.loading}>Loading movies...</b>}
       {error && (
-        <b className={styles.error}>
+        <b className={css.error}>
           Whoops, something went wrong, please try reloading this page!
         </b>
       )}
